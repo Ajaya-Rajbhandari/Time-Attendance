@@ -48,7 +48,8 @@ router.get('/today', authMiddleware, async (req, res) => {
 
     res.json(attendance);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch attendance' });
+    console.error('Error fetching today\'s attendance:', error);
+    res.status(500).json({ error: 'Failed to fetch today\'s attendance' });
   }
 });
 
@@ -77,6 +78,17 @@ router.get('/range', authMiddleware, async (req, res) => {
   } catch (error) {
     console.error('Error fetching attendance range:', error);
     res.status(500).json({ error: 'Failed to fetch attendance records' });
+  }
+});
+
+// Get attendance history
+router.get('/history', authMiddleware, async (req, res) => {
+  try {
+    const attendance = await Attendance.find({ user: req.user.userId });
+    res.json(attendance);
+  } catch (error) {
+    console.error('Error fetching attendance history:', error);
+    res.status(500).json({ error: 'Failed to fetch attendance history' });
   }
 });
 

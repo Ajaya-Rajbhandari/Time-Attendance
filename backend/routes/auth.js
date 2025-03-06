@@ -4,6 +4,23 @@ import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 
 const router = Router();
+const authMiddleware = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    console.log('Token:', token); // Log the token for debugging
+    if (!token) {
+      throw new Error('Authentication required');
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    console.log('Decoded User:', req.user); // Log the decoded user
+    next();
+  } catch (error) {
+    console.error('Authentication Error:', error); // Log the error
+    res.status(401).json({ error: 'Please authenticate' });
+  }
+};
 
 router.post('/register', async (req, res) => {
   try {

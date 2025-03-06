@@ -11,6 +11,7 @@ import { router as authRoutes } from './routes/auth.js';
 import { router as userRoutes } from './routes/users.js';
 import { router as attendanceRoutes } from './routes/attendance.js';
 import { router as scheduleRoutes } from './routes/schedules.js';
+import { router as notificationsRoutes } from './routes/notifications.js'; // Import notifications route
 
 // Middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -39,6 +40,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', authMiddleware, userRoutes);
 app.use('/api/attendance', authMiddleware, attendanceRoutes);
 app.use('/api/schedules', authMiddleware, scheduleRoutes);
+app.use('/api/notifications', authMiddleware, notificationsRoutes); // Set up notifications route
 
 // Error handling
 app.use(errorHandler);
